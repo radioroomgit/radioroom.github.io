@@ -19,30 +19,27 @@
         <link rel="stylesheet" href="jquery.button-audio-player.css" />
         <link rel="stylesheet" href="vegas.min.css" />
         
-          <script>
-                $(function() {
-                    $('body').vegas({
-                        slides: [
-                            { src: 'images/1.jpg' },
-                            { src: 'images/2.jpg' },
-                            { src: 'images/3.jpg' }
-                        ],
+        <script>
+            $(function() {
+                $('body').vegas({
+                    slides: [
+                        { src: 'images/1.jpg' },
+                        { src: 'images/2.jpg' },
+                        { src: 'images/3.jpg' }
+                    ],
 
-                        shuffle: true,
-                        timer: false,
-                        transition: ['fade', 'fade2',
-                                      'blur', 'blur2',
-                                      'flash', 'flash2',
-                                      'burn', 'burn2'],
-                        animation: 'random',
-                        overlay: true,
-                        delay: 50000
-                    });
+                    shuffle: true,
+                    timer: false,
+                    transition: ['fade', 'fade2',
+                                  'blur', 'blur2',
+                                  'flash', 'flash2',
+                                  'burn', 'burn2'],
+                    animation: 'random',
+                    overlay: true,
+                    delay: 50000
                 });
-            </script>
-
-    </head>
-    <body id="page">
+            });
+        </script>
 
         <script>
             $(function(){
@@ -52,8 +49,8 @@
                 });
             });
         </script>
-
+    </head>
+    <body id="page">
         <div id="default"></div>
-
     </body>
 </html>
