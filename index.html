@@ -14,11 +14,39 @@
         <meta name="author" content="a.D" />
         <link rel="shortcut icon" href="../favicon.ico"> 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="_btn-bar-animation.js"></script>
         <script src="jquery.button-audio-player.js"></script>
         <script src="vegas.min.js"></script>
         <link rel="stylesheet" href="jquery.button-audio-player.css" />
         <link rel="stylesheet" href="vegas.min.css" />
         
+        <style>
+         .volume {
+            position:relative;
+            cursor:pointer;
+            width:42px;
+            height:200px;
+            float:left;
+            margin-top:120px;
+            margin-left:70px;
+            margin-right:-95px;
+            background-color:#000;
+            opacity: 0.8;
+            border-radius: 10px 10px 10px 10px;
+            border-style: solid;
+        }
+        .volumeBar {
+            display:block;
+            height:100%;
+            width: 92%;
+            position:absolute;
+            bottom:0;
+            left:0;
+            background-color:#fff;
+            border-radius: 10px 10px 10px 10px;
+            border-style: solid;
+         </style>
+
         <script>
             $(function() {
                 $('body').vegas({
@@ -143,16 +171,63 @@
             });
         </script>
 
-        <script>
-            $(function(){
-                $('#default').buttonAudioPlayer({
-                src: 'http:\/\/134.122.83.208\/radio\/8000\/radio.mp3',
-                type: 'bar-animation'
-                });
-            });
-        </script>
     </head>
     <body id="page">
-        <div id="default"></div>
+        <div id="default"><div class="volume" title="Set volume"> <span class="volumeBar"></span></div></div>
+        
+        <script>
+
+            var audio = new Audio('http:\/\/134.122.83.208\/radio\/8000\/radio.mp3');
+
+            var btnBarAnimation = new buttonBarAnimation(audio);
+            btnBarAnimation.init($('#default'));
+
+            var volumeDrag = false;
+            
+            $('.volume').on('mousedown', function (e) {
+                volumeDrag = true;
+                audio.muted = false;
+                $('.sound').removeClass('muted');
+                updateVolume(e.pageY);
+            });
+
+            $(document).on('mouseup', function (e) {
+                if (volumeDrag) {
+                    volumeDrag = false;
+                    updateVolume(e.pageY);
+                }
+            });
+
+            $(document).on('mousemove', function (e) {
+                if (volumeDrag) {
+                    updateVolume(e.pageY);
+                }
+            });
+
+            var updateVolume = function (y, vol) {
+                var volume = $('.volume');
+                var percentage;
+
+                if (vol) {
+                    percentage = vol * 100;
+                } else {
+                    var position = y - volume.offset().top;
+                    percentage = 100 * position / volume.height();
+                }
+
+                if (percentage > 100) {
+                    percentage = 100;
+                }
+                if (percentage < 0) {
+                    percentage = 0;
+                }
+
+                $('.volumeBar').css('height', (100 - percentage) + '%');
+                audio.volume = (100 - percentage) / 100;
+
+            };
+
+        </script>
+
     </body>
 </html>
