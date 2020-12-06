@@ -172,7 +172,7 @@
 
     </head>
     <body id="page">
-        <div id="default"><div class="volume" title="Set volume"> <span class="volumeBar"></span></div></div>
+        <div id="default"><div id="volumeElement" class="volume" title="Set volume"> <span class="volumeBar"></span></div></div>
         
         <script>
 
@@ -225,6 +225,10 @@
                 audio.volume = (100 - percentage) / 100;
 
             };
+
+            if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+                document.getElementById("volumeElement").style.visibility = "hidden";
+            }
 
         </script>
 
