@@ -20,31 +20,45 @@
         <link rel="stylesheet" href="vegas.min.css" />
         
         <style>
-         .volume {
+        .volume {
             position:relative;
             cursor:pointer;
-            width:42px;
-            height:200px;
+            width:120px;
+            height:42px;
             float:left;
             margin-top:120px;
-            margin-left:70px;
-            margin-right:-95px;
+            margin-left:50px;
+            margin-right:-130px;
             background-color:#000;
-            opacity: 0.8;
-            border-radius: 10px 10px 10px 10px;
-            border-style: solid;
+            border-radius: 5px 5px 5px 5px;
         }
         .volumeBar {
             display:block;
             height:100%;
-            width: 92%;
+            width: 100%;
             position:absolute;
             bottom:0;
             left:0;
             background-color:#fff;
-            border-radius: 10px 10px 10px 10px;
-            border-style: solid;
-         </style>
+            border-radius: 5px 5px 5px 5px;
+        }
+        div.shadow {
+    position:absolute;
+    max-width:35%;
+    max-height:35%;
+    top:50%;
+    left:50%;
+    overflow:visible;
+}
+img.logo {
+    position:relative;
+    max-width:100%;
+    max-height:100%;
+    margin-top:-50%;
+    margin-left:-50%;
+}
+
+        </style>
 
         <script>
             $(function() {
@@ -173,10 +187,10 @@
     </head>
     <body id="page">
         <div id="default"><div id="volumeElement" class="volume" title="Set volume"> <span class="volumeBar"></span></div></div>
-        
+        <div class="shadow"><img class="logo" src="images/logo.png" /></div>
         <script>
 
-            var audio = new Audio('http:\/\/134.122.83.208\/radio\/8000\/radio.mp3');
+            var audio = new Audio('https:\/\/134.122.83.208\/radio\/8000\/radio.mp3');
 
             var btnBarAnimation = new buttonBarAnimation(audio);
             btnBarAnimation.init($('#default'));
@@ -187,31 +201,31 @@
                 volumeDrag = true;
                 audio.muted = false;
                 $('.sound').removeClass('muted');
-                updateVolume(e.pageY);
+                updateVolume(e.pageX);
             });
 
             $(document).on('mouseup', function (e) {
                 if (volumeDrag) {
                     volumeDrag = false;
-                    updateVolume(e.pageY);
+                    updateVolume(e.pageX);
                 }
             });
 
             $(document).on('mousemove', function (e) {
                 if (volumeDrag) {
-                    updateVolume(e.pageY);
+                    updateVolume(e.pageX);
                 }
             });
 
-            var updateVolume = function (y, vol) {
+            var updateVolume = function (x, vol) {
                 var volume = $('.volume');
                 var percentage;
 
                 if (vol) {
                     percentage = vol * 100;
                 } else {
-                    var position = y - volume.offset().top;
-                    percentage = 100 * position / volume.height();
+                    var position = x - volume.offset().left;
+                    percentage = 100 * position / volume.width();
                 }
 
                 if (percentage > 100) {
@@ -221,8 +235,8 @@
                     percentage = 0;
                 }
 
-                $('.volumeBar').css('height', (100 - percentage) + '%');
-                audio.volume = (100 - percentage) / 100;
+                $('.volumeBar').css('width', percentage + '%');
+                audio.volume = percentage / 100;
 
             };
 
